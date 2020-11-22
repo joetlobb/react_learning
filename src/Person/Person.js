@@ -11,7 +11,6 @@ const person = (props) => {
       value={props.name} />
     </div>
   )
-
 };
 
 export default person;
