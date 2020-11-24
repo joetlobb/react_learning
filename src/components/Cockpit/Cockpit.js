@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classes from './Cockpit.module.css';
 
-const cockpit = (props) => {
-  let assignedClasses = [];
+const Cockpit = (props) => {
+  useEffect(() => {
+    console.log('[Cockpit.js] useEffect');
+    // Http request
+    setTimeout(() => {
+      alert('Saved data to cloud!');
+    }, 1000);
+  }, []); // only run once the component is created
+  // }, [props.persons]); // only to persons value changes
+
+  // useEffect();
+
+  const assignedClasses = [];
   let btnClass = '';
 
   if (props.showPersons) {
@@ -27,4 +38,4 @@ const cockpit = (props) => {
   );
 };
 
-export default cockpit;
+export default Cockpit;
