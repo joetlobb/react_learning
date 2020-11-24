@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import classes from './App.module.css';
 
-import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Cockpit from '../components/Cockpit/Cockpit';
+import Persons from '../components/Persons/Persons';
 
 class App extends Component {
   state = {
@@ -15,7 +15,7 @@ class App extends Component {
     showPersons: false
   }
 
-  nameChangedHandler = (id, event) => {
+  nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
     })
@@ -23,15 +23,12 @@ class App extends Component {
     const person = {
       ...this.state.persons[personIndex]
     };
-
     // or use
     // const person = Object.assign({}, this.state.persons[personIndex]);
 
     person.name = event.target.value;
-
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-
     this.setState({ persons: persons });
   };
 
@@ -41,7 +38,7 @@ class App extends Component {
   };
 
   deletePersonHandler = (personIndex) => {
-    // const persons = this.state.persons.splice();
+    // or const persons = this.state.persons.splice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({ persons: persons });
@@ -49,45 +46,20 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = '';
 
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <ErrorBoundary><Person
-              // Can switch between these two, but bind is preferable
-              // click={() => this.deletePersonHandler(index)}
-              click={this.deletePersonHandler.bind(this, index)}
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              // changed={(event) => this.nameChangedHandler(event, person.id)} />
-              changed={this.nameChangedHandler.bind(null, person.id)} />
-            </ErrorBoundary>
-          })}
-        </div>
-      )
-
-      btnClass = classes.Red;
+      persons = <Persons
+        persons={this.state.persons}
+        clicked={this.deletePersonHandler}
+        changed={this.nameChangedHandler} />
     };
-
-    let assignedClasses = [];
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red); // assignedClassess = ['red']
-    }
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold); // assignedClassess = ['red', 'bold']
-    }
 
     return (
       <div className={classes.App} >
-        <h1>Hello World!</h1>
-        <p className={assignedClasses.join(' ')}>This is working!</p>
-        <button className={btnClass} myAlt={this.state.showPersons}
-          onClick={this.togglePersonsHandler}
-        >Toggle Persons
-        </button>
+        <Cockpit
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler} />
         {persons}
       </div>
     );
@@ -95,6 +67,13 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+
+
+
+// ----- following is function-based 
 
 // import React, { useState } from 'react';
 // import logo from './logo.svg';
