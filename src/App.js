@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
+// import Radium, { StyleRoot } from 'radium';
+import styled from 'styled-components';
 // import logo from './logo.svg';
+
 import './App.css';
 
 import Person from './Person/Person';
+
+const StyledButton = styled.button`
+  background-color: ${props => props.myAlt ? 'red' : 'green'};
+  color: white;
+  font: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: ${props => props.myAlt ? 'salmon' : 'lightgreen'};
+    color: black;
+`;
 
 class App extends Component {
   state = {
@@ -15,7 +31,7 @@ class App extends Component {
     showPersons: false
   }
 
-  nameChangedHandler = (event, id) => {
+  nameChangedHandler = (id, event) => {
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
     })
@@ -48,13 +64,18 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
+    // const style = {
+    //   backgroundColor: 'green',
+    //   color: 'white',
+    //   font: 'inherit',
+    //   border: '1px solid blue',
+    //   padding: '8px',
+    //   cursor: 'pointer',
+    //   ':hover': {
+    //     backgroundColor: 'lightgreen',
+    //     color: 'black'
+    //   }
+    // };
 
     let persons = null;
 
@@ -69,25 +90,44 @@ class App extends Component {
               name={person.name}
               age={person.age}
               key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)} />
+              // changed={(event) => this.nameChangedHandler(event, person.id)} />
+              changed={this.nameChangedHandler.bind(null, person.id)} />
           })}
         </div>
       )
+
+      // style.backgroundColor = 'red';
+      // style[':hover'] = {
+      //   backgroundColor: 'salmon',
+      //   color: 'black'
+      // }
     };
 
+    let classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push('red'); // classess = ['red']
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold'); // classess = ['red', 'bold']
+    }
+
     return (
+      // <StyleRoot>
       <div className="App" >
         <h1>Hello World!</h1>
-        <p>This is working!</p>
-        <button
-          style={style}
-          onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        <p className={classes.join(' ')}>This is working!</p>
+        <StyledButton myAlt={this.state.showPersons}
+          onClick={this.togglePersonsHandler}
+        >Toggle Persons
+        </StyledButton>
         {persons}
       </div>
+      // </StyleRoot>
     );
   }
 }
 
+// export default Radium(App);
 export default App;
 
 // import React, { useState } from 'react';
