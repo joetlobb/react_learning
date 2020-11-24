@@ -5,7 +5,7 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import Persons from '../components/Persons/Persons';
 
 class App extends Component {
-  constructor(props) { 
+  constructor(props) {
     super(props);
     console.log('[App.js] constructor');
   };
@@ -17,7 +17,8 @@ class App extends Component {
       { id: 3, name: 'Joy', age: 30 }
     ],
     otherState: 'some value',
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -71,6 +72,10 @@ class App extends Component {
     this.setState({ persons: persons });
   };
 
+  toggleCockpit = () => {
+    this.setState({ showCockpit: false });
+  };
+
   render() {
     console.log('[App.js] render');
     let persons = null;
@@ -84,11 +89,15 @@ class App extends Component {
 
     return (
       <div className={classes.App} >
-        <Cockpit
+        <button onClick={this.toggleCockpit}>
+          Remove Cockpit
+        </button>
+        {this.state.showCockpit ? <Cockpit
           title={this.props.appTitle}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
-          clicked={this.togglePersonsHandler} />
+          clicked={this.togglePersonsHandler}
+        /> : null}
         {persons}
       </div>
     );
