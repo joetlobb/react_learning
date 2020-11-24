@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.module.css';
 
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -54,7 +55,7 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person
+            return <ErrorBoundary><Person
               // Can switch between these two, but bind is preferable
               // click={() => this.deletePersonHandler(index)}
               click={this.deletePersonHandler.bind(this, index)}
@@ -63,10 +64,11 @@ class App extends Component {
               key={person.id}
               // changed={(event) => this.nameChangedHandler(event, person.id)} />
               changed={this.nameChangedHandler.bind(null, person.id)} />
+            </ErrorBoundary>
           })}
         </div>
       )
-      
+
       btnClass = classes.Red;
     };
 
