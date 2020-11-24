@@ -1,24 +1,7 @@
 import React, { Component } from 'react';
-// import Radium, { StyleRoot } from 'radium';
-import styled from 'styled-components';
-// import logo from './logo.svg';
-
-import './App.css';
+import classes from './App.module.css';
 
 import Person from './Person/Person';
-
-const StyledButton = styled.button`
-  background-color: ${props => props.myAlt ? 'red' : 'green'};
-  color: white;
-  font: inherit;
-  border: 1px solid blue;
-  padding: 8px;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: ${props => props.myAlt ? 'salmon' : 'lightgreen'};
-    color: black;
-`;
 
 class App extends Component {
   state = {
@@ -64,20 +47,8 @@ class App extends Component {
   };
 
   render() {
-    // const style = {
-    //   backgroundColor: 'green',
-    //   color: 'white',
-    //   font: 'inherit',
-    //   border: '1px solid blue',
-    //   padding: '8px',
-    //   cursor: 'pointer',
-    //   ':hover': {
-    //     backgroundColor: 'lightgreen',
-    //     color: 'black'
-    //   }
-    // };
-
     let persons = null;
+    let btnClass = '';
 
     if (this.state.showPersons) {
       persons = (
@@ -95,39 +66,32 @@ class App extends Component {
           })}
         </div>
       )
-
-      // style.backgroundColor = 'red';
-      // style[':hover'] = {
-      //   backgroundColor: 'salmon',
-      //   color: 'black'
-      // }
+      
+      btnClass = classes.Red;
     };
 
-    let classes = [];
+    let assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red'); // classess = ['red']
+      assignedClasses.push(classes.red); // assignedClassess = ['red']
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold'); // classess = ['red', 'bold']
+      assignedClasses.push(classes.bold); // assignedClassess = ['red', 'bold']
     }
 
     return (
-      // <StyleRoot>
-      <div className="App" >
+      <div className={classes.App} >
         <h1>Hello World!</h1>
-        <p className={classes.join(' ')}>This is working!</p>
-        <StyledButton myAlt={this.state.showPersons}
+        <p className={assignedClasses.join(' ')}>This is working!</p>
+        <button className={btnClass} myAlt={this.state.showPersons}
           onClick={this.togglePersonsHandler}
         >Toggle Persons
-        </StyledButton>
+        </button>
         {persons}
       </div>
-      // </StyleRoot>
     );
   }
 }
 
-// export default Radium(App);
 export default App;
 
 // import React, { useState } from 'react';
